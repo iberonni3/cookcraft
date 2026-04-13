@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CookCraft – Recipe Manager</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">🍳 CookCraft</div>
+    <nav>
+      <a href="index.html" class="active">Home</a>
+      <a href="add-recipe.html">Add Recipe</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Your Personal Recipe Hub</h1>
+      <p>Save, browse, and search your favourite recipes — all in one place.</p>
+      <a href="add-recipe.html" class="btn-primary">+ Add a Recipe</a>
+    </section>
+
+    <section class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search recipes by name or ingredient…"
+        oninput="filterRecipes()" />
+    </section>
+
+    <section class="recipe-grid" id="recipeGrid">
+      <!-- Cards injected by JS -->
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 CookCraft. Built with ❤️ for food lovers.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

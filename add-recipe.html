@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Recipe – CookCraft</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <header>
+    <div class="logo">🍳 CookCraft</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="add-recipe.html" class="active">Add Recipe</a>
+    </nav>
+  </header>
+
+  <main class="form-page">
+    <div class="form-card">
+      <h2>Add a New Recipe</h2>
+
+      <div id="formMsg" class="form-msg hidden"></div>
+
+      <div class="field">
+        <label for="title">Recipe Name *</label>
+        <input type="text" id="title" placeholder="e.g. Ugali with Sukuma Wiki"/>
+      </div>
+
+      <div class="field">
+        <label for="category">Category</label>
+        <select id="category">
+          <option value="Breakfast">Breakfast</option>
+          <option value="Lunch">Lunch</option>
+          <option value="Dinner" selected>Dinner</option>
+          <option value="Snack">Snack</option>
+          <option value="Dessert">Dessert</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="prep">Prep Time (minutes)</label>
+        <input type="number" id="prep" placeholder="e.g. 20" min="1"/>
+      </div>
+
+      <div class="field">
+        <label for="ingredients">Ingredients * <span class="hint">(one per line)</span></label>
+        <textarea id="ingredients" rows="6" placeholder="2 cups flour&#10;1 tsp salt&#10;..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="steps">Cooking Steps *</label>
+        <textarea id="steps" rows="7" placeholder="1. Boil water…&#10;2. Add flour…"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="imageUrl">Image URL <span class="hint">(optional)</span></label>
+        <input type="url" id="imageUrl" placeholder="https://example.com/photo.jpg"/>
+      </div>
+
+      <button class="btn-primary" onclick="submitRecipe()">Save Recipe</button>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 CookCraft. Built with ❤️ for food lovers.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
