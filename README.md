@@ -6,10 +6,9 @@ CookCraft is a professional, full-stack personal recipe management application d
 
 - **Full CRUD Support**: Create, Read, Update, and Delete your recipes with ease.
 - **Premium Design**: A modern, responsive UI featuring smooth CSS animations, elegant typography (Playfair Display & Outfit), and a warm color palette.
-- **Advanced Search & Filtering**: Instant search by recipe name or ingredients, plus category-based filtering (Breakfast, Lunch, Dinner, etc.).
 - **Favorites System**: "Heart" your most-loved recipes to find them quickly; your preferences are saved to the server.
 - **Flexible Media**: Support for both pasting online image URLs and uploading photos directly from your device.
-- **SEO Optimized**: Includes Recipe Schema.org structured data, making your recipes ready for search engines.
+
 
 ## 🚀 Tech Stack
 
