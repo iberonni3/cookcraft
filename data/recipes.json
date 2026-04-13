@@ -1,0 +1,83 @@
+[
+    {
+        "id": 1,
+        "title": "Ugali with Sukuma Wiki",
+        "category": "Dinner",
+        "prep": 30,
+        "imageUrl": "https:\/\/upload.wikimedia.org\/wikipedia\/commons\/4\/4b\/Ugali_%26_Sukuma_Wiki.jpg",
+        "ingredients": [
+            "2 cups maize flour",
+            "3 cups water",
+            "1 bunch kale (sukuma wiki)",
+            "1 onion",
+            "2 tomatoes",
+            "2 tbsp cooking oil",
+            "Salt to taste"
+        ],
+        "steps": [
+            "Boil water in a sufuria.",
+            "Add maize flour gradually, stirring constantly to avoid lumps.",
+            "Cook over low heat for 15 minutes, folding until firm.",
+            "Saut\u00e9 onion in oil until golden. Add tomatoes and cook for 5 minutes.",
+            "Add chopped sukuma wiki and stir-fry for 3 minutes.",
+            "Season with salt and serve with ugali."
+        ],
+        "favorite": true,
+        "created_at": "2026-04-13 13:06:39",
+        "updated_at": "2026-04-13 13:10:56"
+    },
+    {
+        "id": 2,
+        "title": "Pilau Rice",
+        "category": "Lunch",
+        "prep": 45,
+        "imageUrl": "https:\/\/upload.wikimedia.org\/wikipedia\/commons\/e\/e0\/Beef_Pilau.jpg",
+        "ingredients": [
+            "2 cups basmati rice",
+            "500g beef (cubed)",
+            "1 onion",
+            "4 garlic cloves",
+            "1 tsp cumin seeds",
+            "1 tsp pilau masala",
+            "2 cups beef stock",
+            "3 tbsp oil",
+            "Salt"
+        ],
+        "steps": [
+            "Wash and soak rice for 20 minutes.",
+            "Brown beef in oil, remove and set aside.",
+            "Fry onion, garlic and cumin seeds until golden.",
+            "Add pilau masala and stir for 30 seconds.",
+            "Return beef, add rice and stock. Mix gently.",
+            "Cover and cook on low heat for 20 minutes until rice is done."
+        ],
+        "favorite": false,
+        "created_at": "2026-04-13 13:06:39"
+    },
+    {
+        "id": 3,
+        "title": "Mandazi",
+        "category": "Breakfast",
+        "prep": 40,
+        "imageUrl": "https:\/\/upload.wikimedia.org\/wikipedia\/commons\/6\/63\/Mandazi.jpg",
+        "ingredients": [
+            "3 cups all-purpose flour",
+            "\u00bd cup sugar",
+            "1 tsp baking powder",
+            "1 egg",
+            "1 cup coconut milk",
+            "\u00bd tsp cardamom",
+            "Oil for frying"
+        ],
+        "steps": [
+            "Mix flour, sugar, baking powder and cardamom.",
+            "Add egg and coconut milk; knead into soft dough.",
+            "Let dough rest for 15 minutes.",
+            "Roll out dough and cut into triangles or squares.",
+            "Deep-fry in hot oil until golden brown.",
+            "Drain on paper towels and serve warm."
+        ],
+        "favorite": true,
+        "created_at": "2026-04-13 13:06:39"
+    }
+]

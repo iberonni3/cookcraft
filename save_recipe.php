@@ -2,10 +2,11 @@
 /**
  * CookCraft – save_recipe.php
  * Handles server-side saving of new recipes to a JSON flat-file database.
- * Called via POST from add-recipe.html (action="save_recipe.php").
+ * Supports image URLs and local file uploads.
  */
 
 define('DB_FILE', __DIR__ . '/data/recipes.json');
+define('UPLOAD_DIR', __DIR__ . '/uploads/');
 
 // ── Helpers ──────────────────────────────────────────────
 function load_recipes(): array {
@@ -25,48 +26,75 @@ function sanitize(string $value): string {
     return htmlspecialchars(strip_tags(trim($value)), ENT_QUOTES, 'UTF-8');
 }
 
-function redirect(string $url): void {
-    header("Location: $url");
-    exit;
+function send_response($status, $message, $extra = []) {
+    $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+    
+    if ($isAjax || isset($_GET['ajax'])) {
+        header('Content-Type: application/json');
+        http_response_code($status);
+        echo json_encode(array_merge(['message' => $message], $extra));
+        exit;
+    } else {
+        if ($status >= 400) {
+            header("Location: add-recipe.html?error=" . urlencode($message));
+        } else {
+            header("Location: index.html?saved=1");
+        }
+        exit;
+    }
 }
 
 // ── Only handle POST ──────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    redirect('add-recipe.html');
+    send_response(405, 'Method not allowed');
 }
 
 // ── Collect & validate inputs ─────────────────────────────
 $title       = sanitize($_POST['title']       ?? '');
 $category    = sanitize($_POST['category']    ?? 'Dinner');
 $prep        = (int) ($_POST['prep']          ?? 0);
-$ingredients = sanitize($_POST['ingredients'] ?? '');
-$steps       = sanitize($_POST['steps']       ?? '');
+$ingredients = $_POST['ingredients']          ?? '';
+$steps       = $_POST['steps']                ?? '';
 $imageUrl    = sanitize($_POST['imageUrl']    ?? '');
+$favorite    = isset($_POST['favorite']) && ($_POST['favorite'] === 'true' || $_POST['favorite'] === '1');
 
-$errors = [];
+if (empty($title) || empty($ingredients) || empty($steps)) {
+    send_response(400, 'Please fill in all required fields (Name, Ingredients, Steps).');
+}
 
-if (empty($title))       $errors[] = 'Recipe name is required.';
-if (empty($ingredients)) $errors[] = 'Ingredients are required.';
-if (empty($steps))       $errors[] = 'Cooking steps are required.';
-
-if (!empty($errors)) {
-    // Pass errors back to the form via query string
-    $errorMsg = urlencode(implode(' | ', $errors));
-    redirect("add-recipe.html?error=$errorMsg");
+// ── Handle Image Upload ───────────────────────────────────
+if (!empty($_FILES['imageFile']['name'])) {
+    if (!is_dir(UPLOAD_DIR)) {
+        mkdir(UPLOAD_DIR, 0755, true);
+    }
+    
+    $fileInfo = pathinfo($_FILES['imageFile']['name']);
+    $extension = strtolower($fileInfo['extension']);
+    $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    
+    if (in_array($extension, $allowed)) {
+        $newName = 'recipe_' . time() . '_' . uniqid() . '.' . $extension;
+        $targetPath = UPLOAD_DIR . $newName;
+        
+        if (move_uploaded_file($_FILES['imageFile']['tmp_name'], $targetPath)) {
+            $imageUrl = 'uploads/' . $newName;
+        }
+    }
 }
 
 // ── Build recipe object ───────────────────────────────────
-$ingredientList = array_filter(array_map('trim', explode("\n", $ingredients)));
-$stepList       = array_filter(array_map('trim', explode("\n", $steps)));
+$ingredientList = array_filter(array_map('sanitize', array_map('trim', explode("\n", $ingredients))));
+$stepList       = array_filter(array_map('sanitize', array_map('trim', explode("\n", $steps))));
 
 $newRecipe = [
-    'id'          => time(),          // Unix timestamp as unique ID
+    'id'          => time(),
     'title'       => $title,
     'category'    => $category,
     'prep'        => $prep,
     'imageUrl'    => $imageUrl,
     'ingredients' => array_values($ingredientList),
     'steps'       => array_values($stepList),
+    'favorite'    => $favorite,
     'created_at'  => date('Y-m-d H:i:s'),
 ];
 
@@ -75,6 +103,5 @@ $recipes   = load_recipes();
 $recipes[] = $newRecipe;
 save_recipes($recipes);
 
-// ── Redirect back to home with success flag ───────────────
-redirect('index.html?saved=1');
+send_response(200, 'Recipe saved successfully!', ['recipe' => $newRecipe]);
 ?>

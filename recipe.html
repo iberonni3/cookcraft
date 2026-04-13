@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Recipe – CookCraft</title>
+  <title>Recipe Details – CookCraft</title>
   <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
 
@@ -17,11 +18,15 @@
   </header>
 
   <main class="detail-page" id="detailContent">
-    <!-- Populated by JS -->
+    <!-- Loading State -->
+    <div style="text-align: center; padding: 10rem;">
+      <i class="fa-solid fa-spinner fa-spin fa-4x" style="color: var(--spice);"></i>
+      <p style="margin-top: 1.5rem; color: var(--muted); font-size: 1.2rem;">Plating your recipe...</p>
+    </div>
   </main>
 
   <footer>
-    <p>&copy; 2025 CookCraft. Built with ❤️ for food lovers.</p>
+    <p>&copy; 2026 CookCraft. Precision-engineered for foodies.</p>
   </footer>
 
   <script src="app.js"></script>

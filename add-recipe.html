@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Add Recipe – CookCraft</title>
+  <title>Create Recipe – CookCraft</title>
   <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
 
@@ -16,56 +17,114 @@
     </nav>
   </header>
 
-  <main class="form-page">
+  <main class="detail-page" style="max-width: 800px;">
     <div class="form-card">
-      <h2>Add a New Recipe</h2>
+      <h2 class="section-heading" id="formTitle">Share a New Recipe</h2>
+      <p style="color: var(--muted); margin-bottom: 2rem;">Fill in the details below to add your culinary masterpiece.</p>
 
-      <div id="formMsg" class="form-msg hidden"></div>
+      <div id="formMsg" class="form-msg hidden" style="margin-bottom: 2rem; padding: 1rem; border-radius: 10px;"></div>
 
-      <div class="field">
-        <label for="title">Recipe Name *</label>
-        <input type="text" id="title" placeholder="e.g. Ugali with Sukuma Wiki"/>
-      </div>
+      <form id="recipeForm" onsubmit="event.preventDefault(); submitRecipe();">
+        <input type="hidden" id="recipeId" value=""/>
 
-      <div class="field">
-        <label for="category">Category</label>
-        <select id="category">
-          <option value="Breakfast">Breakfast</option>
-          <option value="Lunch">Lunch</option>
-          <option value="Dinner" selected>Dinner</option>
-          <option value="Snack">Snack</option>
-          <option value="Dessert">Dessert</option>
-        </select>
-      </div>
+        <div class="field">
+          <label for="title">Recipe Name <span style="color:var(--spice)">*</span></label>
+          <input type="text" id="title" placeholder="e.g. Grandma's Secret Stew" required/>
+        </div>
 
-      <div class="field">
-        <label for="prep">Prep Time (minutes)</label>
-        <input type="number" id="prep" placeholder="e.g. 20" min="1"/>
-      </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+          <div class="field">
+            <label for="category">Category</label>
+            <select id="category">
+              <option value="Breakfast">Breakfast</option>
+              <option value="Lunch">Lunch</option>
+              <option value="Dinner" selected>Dinner</option>
+              <option value="Snack">Snack</option>
+              <option value="Dessert">Dessert</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="prep">Prep Time (minutes)</label>
+            <input type="number" id="prep" placeholder="e.g. 45" min="1"/>
+          </div>
+        </div>
 
-      <div class="field">
-        <label for="ingredients">Ingredients * <span class="hint">(one per line)</span></label>
-        <textarea id="ingredients" rows="6" placeholder="2 cups flour&#10;1 tsp salt&#10;..."></textarea>
-      </div>
+        <div class="field">
+          <label for="ingredients">Ingredients <span style="color:var(--spice)">*</span> <span style="font-size:0.8rem; font-weight:400; opacity:0.7;">(One per line)</span></label>
+          <textarea id="ingredients" rows="6" placeholder="2 cups flour&#10;1 tsp salt&#10;Fresh basil" required></textarea>
+        </div>
 
-      <div class="field">
-        <label for="steps">Cooking Steps *</label>
-        <textarea id="steps" rows="7" placeholder="1. Boil water…&#10;2. Add flour…"></textarea>
-      </div>
+        <div class="field">
+          <label for="steps">Instructions <span style="color:var(--spice)">*</span></label>
+          <textarea id="steps" rows="8" placeholder="1. Preheat oven to 350°F&#10;2. Mix dry ingredients..." required></textarea>
+        </div>
 
-      <div class="field">
-        <label for="imageUrl">Image URL <span class="hint">(optional)</span></label>
-        <input type="url" id="imageUrl" placeholder="https://example.com/photo.jpg"/>
-      </div>
+        <div class="field">
+          <label>Recipe Image</label>
+          <div style="display: flex; gap: 1rem; flex-direction: column;">
+            <div id="urlInputContainer">
+              <label style="font-size: 0.8rem; opacity: 0.7;">Image URL</label>
+              <input type="url" id="imageUrl" placeholder="https://example.com/photo.jpg"/>
+            </div>
+            
+            <div style="text-align: center; margin: 0.5rem 0;">
+              <span style="font-size: 0.8rem; color: var(--muted);">— OR —</span>
+            </div>
 
-      <button class="btn-primary" onclick="submitRecipe()">Save Recipe</button>
+            <div class="upload-area" onclick="document.getElementById('imageFile').click()">
+              <i class="fa-solid fa-cloud-arrow-up fa-2x" style="color: var(--spice); margin-bottom: 10px;"></i>
+              <p>Click to upload a photo</p>
+              <p style="font-size: 0.75rem; color: var(--muted);">JPG, PNG or WebP</p>
+              <input type="file" id="imageFile" accept="image/*" style="display:none" onchange="previewUpload(this)"/>
+            </div>
+            <div id="uploadPreview" style="display:none; margin-top: 1rem; border-radius: 10px; overflow: hidden; height: 150px; border: 1px solid var(--sand);">
+                <img id="previewImg" src="" style="width:100%; height:100%; object-fit:cover;"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="field" style="display: flex; align-items: center; gap: 10px;">
+          <input type="checkbox" id="favorite" style="width: auto;"/>
+          <label for="favorite" style="margin-bottom: 0;">Mark as Favorite</label>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+          <button type="submit" class="btn-primary" style="flex: 2;">
+            <i class="fa-solid fa-save"></i> <span id="submitBtnText">Save Recipe</span>
+          </button>
+          <a href="index.html" class="btn-secondary" style="flex: 1; text-align: center; text-decoration: none; display: flex; align-items:center; justify-content:center;">Cancel</a>
+        </div>
+      </form>
     </div>
   </main>
 
   <footer>
-    <p>&copy; 2025 CookCraft. Built with ❤️ for food lovers.</p>
+    <p>&copy; 2026 CookCraft. Precision-engineered for foodies.</p>
   </footer>
 
   <script src="app.js"></script>
+  <script>
+    function previewUpload(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('previewImg').src = e.target.result;
+          document.getElementById('uploadPreview').style.display = 'block';
+          document.getElementById('imageUrl').value = ''; // Clear URL if uploading file
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+    
+    // Check if we are in Edit mode
+    const params = new URLSearchParams(window.location.search);
+    const editId = params.get('edit');
+    if (editId) {
+        document.getElementById('formTitle').textContent = 'Refine Your Recipe';
+        document.getElementById('submitBtnText').textContent = 'Update Recipe';
+        document.title = 'Edit Recipe – CookCraft';
+        // Logic to load data is in app.js
+    }
+  </script>
 </body>
 </html>

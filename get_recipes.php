@@ -22,6 +22,13 @@ function load_recipes(): array {
 
 $recipes = load_recipes();
 
+// ── Ensure consistency (e.g. favorite field) ─────────────
+$recipes = array_map(function($r) {
+    if (!isset($r['favorite'])) $r['favorite'] = false;
+    if (!isset($r['imageUrl'])) $r['imageUrl'] = '';
+    return $r;
+}, $recipes);
+
 // ── Optional: filter by single ID ────────────────────────
 if (isset($_GET['id'])) {
     $id      = (int) $_GET['id'];
@@ -38,5 +45,13 @@ if (isset($_GET['id'])) {
 }
 
 // ── Return all ────────────────────────────────────────────
-echo json_encode($recipes);
+// Sort by favorite first, then by date (newest first)
+usort($recipes, function($a, $b) {
+    if ($a['favorite'] !== $b['favorite']) {
+        return $b['favorite'] <=> $a['favorite'];
+    }
+    return ($b['id'] ?? 0) <=> ($a['id'] ?? 0);
+});
+
+echo json_encode(array_values($recipes));
 ?>

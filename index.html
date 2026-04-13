@@ -4,8 +4,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CookCraft – Recipe Manager</title>
+  <title>CookCraft – Your Premium Personal Recipe Hub</title>
+  <meta name="description" content="Save, browse, and organize your favorite recipes with CookCraft. A premium recipe manager for food lovers." />
+  
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+  <!-- Schema.org Recipe JSON-LD (Dynamic injection by JS but base template here) -->
+  <script type="application/ld+json" id="recipeSchema">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Recipe",
+    "name": "CookCraft Recipes",
+    "description": "A collection of curated recipes."
+  }
+  </script>
+
   <link rel="stylesheet" href="style.css" />
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 
 <body>
@@ -15,28 +32,55 @@
     <nav>
       <a href="index.html" class="active">Home</a>
       <a href="add-recipe.html">Add Recipe</a>
+      <a href="#"><i class="fa-solid fa-heart"></i> Favorites</a>
     </nav>
   </header>
 
   <main>
     <section class="hero">
-      <h1>Your Personal Recipe Hub</h1>
-      <p>Save, browse, and search your favourite recipes — all in one place.</p>
-      <a href="add-recipe.html" class="btn-primary">+ Add a Recipe</a>
+      <h1>The Art of Cooking,<br>Simplified.</h1>
+      <p>Your personal sanctuary for culinary inspiration. Save, manage, and discover recipes in a beautiful, clutter-free space.</p>
+      <a href="add-recipe.html" class="btn-primary">
+        <i class="fa-solid fa-plus"></i> Create New Recipe
+      </a>
     </section>
 
-    <section class="search-bar">
-      <input type="text" id="searchInput" placeholder="Search recipes by name or ingredient…"
-        oninput="filterRecipes()" />
-    </section>
+    <div class="controls-container">
+      <section class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search by name or ingredient…"
+          oninput="filterRecipes()" />
+        <button class="btn-primary" style="padding: 0.8rem 1.5rem; box-shadow: none;">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </section>
+
+      <section class="category-filters" id="categoryFilters">
+        <button class="filter-btn active" onclick="setCategory('All', this)">All Recipes</button>
+        <button class="filter-btn" onclick="setCategory('Breakfast', this)">Breakfast</button>
+        <button class="filter-btn" onclick="setCategory('Lunch', this)">Lunch</button>
+        <button class="filter-btn" onclick="setCategory('Dinner', this)">Dinner</button>
+        <button class="filter-btn" onclick="setCategory('Snack', this)">Snack</button>
+        <button class="filter-btn" onclick="setCategory('Dessert', this)">Dessert</button>
+      </section>
+    </div>
 
     <section class="recipe-grid" id="recipeGrid">
-      <!-- Cards injected by JS -->
+      <!-- Loading State -->
+      <div style="grid-column: 1/-1; text-align: center; padding: 4rem;">
+        <i class="fa-solid fa-circle-notch fa-spin fa-3x" style="color: var(--spice);"></i>
+        <p style="margin-top: 1rem; color: var(--muted);">Mixing the ingredients...</p>
+      </div>
     </section>
   </main>
 
   <footer>
-    <p>&copy; 2026 CookCraft. Built with ❤️ for food lovers.</p>
+    <div style="margin-bottom: 2rem;">
+      <div class="logo" style="justify-content: center; color: var(--sand); margin-bottom: 1rem;">🍳 CookCraft</div>
+      <p>Precision-engineered for the modern kitchen.</p>
+    </div>
+    <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; opacity: 0.6;">
+      <p>&copy; 2026 CookCraft. All culinary rights reserved.</p>
+    </div>
   </footer>
 
   <script src="app.js"></script>
